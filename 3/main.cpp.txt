@@ -1,0 +1,25 @@
+#include <iostream>
+#include <bitset>
+
+
+int main() {
+    int x, i;
+    
+    std::cout << "Введите число x: ";
+    std::cin >> x;
+    std::cout << "Введите позицию бита i: ";
+    std::cin >> i;
+    
+    // Вывод исходного числа
+    std::cout << "\nИсходное число: " << bitset<32>(x) << " (" << x << ")" << std::endl;
+    std::cout << "Бит " << i << ": " << ((x >> i) & 1) << std::endl;
+    
+    // Установка i-го бита в 0
+    int result = x & ~(1 << i);
+    
+    // Вывод результата
+    std::cout << "После установки бита " << i << " в 0: " << bitset<32>(result) << " (" << result << ")" << std::endl;
+    std::cout << "Бит " << i << " теперь: " << ((result >> i) & 1) << std::endl;
+    
+    return 0;
+}
