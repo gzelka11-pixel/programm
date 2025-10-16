@@ -1,0 +1,21 @@
+#include <iostream>
+
+int main() {
+    int n;
+    std::cin >> n;
+    
+    for (int i = 2; i <= n; i++) {
+        int x = i;
+        // Находим первый делитель
+        int d = 2;
+        while (x % d != 0) d++;
+        
+        // Делим на этот делитель пока возможно
+        while (x % d == 0) x /= d;
+        
+        // Если остался 1 - выводим число
+        if (x == 1) std::cout << i << std::endl;
+    }
+    
+    return 0;
+}
