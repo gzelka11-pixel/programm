@@ -1,0 +1,4 @@
+g++ -c money.cpp -o money.o
+g++ -c main.cpp -o main.o
+g++ money.o main.o -o money_program
+./money_program

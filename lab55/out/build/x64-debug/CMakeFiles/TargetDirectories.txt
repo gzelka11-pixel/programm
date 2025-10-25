@@ -1,0 +1,5 @@
+D:/lab55/out/build/x64-debug/CMakeFiles/edit_cache.dir
+D:/lab55/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
+D:/lab55/out/build/x64-debug/lab55/CMakeFiles/lab55.dir
+D:/lab55/out/build/x64-debug/lab55/CMakeFiles/edit_cache.dir
+D:/lab55/out/build/x64-debug/lab55/CMakeFiles/rebuild_cache.dir
