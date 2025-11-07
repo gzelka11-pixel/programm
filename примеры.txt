@@ -1,0 +1,230 @@
+1. Ссылки в C++
+int x = 10;
+int &ref = x;  // ref - ссылка на x
+ref = 20;      // теперь x = 20
+Отличия от указателей:
+int a = 5, b = 10;
+int &ref = a;    // OK
+// &ref = b;     // ОШИБКА! Нельзя переприсвоить ссылку
+ref = b;         // Но это присвоит значение b переменной a (a = 10)
+
+int *ptr = &a;   // OK
+ptr = &b;        // OK - можно перенаправить указатель
+ptr = nullptr;   // OK
+2. Константные ссылки
+int x = 10;
+const int &cref = x;  // Константная ссылка
+// cref = 20;         // ОШИБКА! Нельзя изменить через константную ссылку
+
+int &ref = x;         // Обычная ссылка
+ref = 20;             // OK - можно изменить
+2.      
+// Константная ссылка - для чтения без изменения
+void print(const std::string &str) {
+    std::cout << str;
+    // str[0] = 'A';  // Ошибка - нельзя изменить
+}
+
+// Обычная ссылка - для модификации
+void increment(int &value) {
+    value++;  // Модифицируем оригинальную переменную
+}
+3. Способы передачи аргументов в функцию
+По значению (by value):
+void byValue(int x) {
+    x = 100;  // Изменяется копия, оригинал не меняется
+}
+
+По ссылке (by reference):
+
+
+void byReference(int &x) {
+    x = 100;  // Изменяется оригинальная переменная
+}
+
+Через указатель (by pointer):
+
+cpp
+void byPointer(int *x) {
+    if (x) *x = 100;  // Изменяется оригинал, если указатель не nullptr
+}
+
+Использование:
+
+
+int main() {
+    int a = 5;
+    
+    byValue(a);      // a останется 5
+    byReference(a);  // a станет 100
+    byPointer(&a);   // a станет 100
+    
+    return 0;
+}
+4. Передача по значению
+struct BigData {
+    int data[1000];  // Большая структура
+};
+
+void process(BigData data) {  // Создается полная копия
+    // работа с копией
+}
+5. Передача больших структур по константной ссылке
+struct BigData {
+    int data[1000];
+};
+
+// Плохо - создается копия
+void processByValue(BigData data) {}
+
+// Хорошо - передается только ссылка (4/8 байт)
+void processByConstRef(const BigData &data) {
+    // Можем читать data, но не изменять
+}
+6. Возврат ссылки на локальную переменную
+int& dangerousFunction() {
+    int localVar = 42;
+    return localVar;  // ОПАСНО! Возвращаем ссылку на локальную переменную
+}
+
+int main() {
+    int &ref = dangerousFunction();
+    std::cout << ref;  // Неопределенное поведение! Переменная уже уничтожена
+    return 0;
+}
+7-9. Указатели на функции
+Объявление указателя на функцию:
+// Указатель на функцию, принимающую два int и возвращающую int
+int (*funcPtr)(int, int);
+
+Присвоение и вызов:
+
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+// Пример функции
+int add(int a, int b) { return a + b; }
+int multiply(int a, int b) { return a * b; }
+
+int main() {
+    // Присвоение функции указателю
+    int (*operation)(int, int) = add;
+    
+    // Вызов через указатель
+    std::cout << operation(3, 4) << std::endl;  // 7
+    
+    // Переназначение
+    operation = multiply;
+    std::cout << operation(3, 4) << std::endl;  // 12
+    
+    return 0;
+}
+
+Практическое применение:
+
+Сортировка с пользовательской функцией сравнения:
+
+
+bool ascending(int a, int b) { return a < b; }
+bool descending(int a, int b) { return a > b; }
+
+void sortArray(int arr[], int size, bool (*compare)(int, int)) {
+    // Используем функцию сравнения для сортировки
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (compare(arr[j], arr[i])) {
+                std::swap(arr[i], arr[j]);
+            }
+        }
+    }
+}
+Обработка элементов массива:
+
+
+void processArray(int arr[], int size, int (*operation)(int)) {
+    for (int i = 0; i < size; i++) {
+        arr[i] = operation(arr[i]);
+    }
+}
+
+int square(int x) { return x * x; }
+int doubleValue(int x) { return x * 2; }
+
+10-12. Лямбда-выражения
+Захват по значению [=]:
+
+
+int x = 10, y = 20;
+auto lambda = [=]() { 
+    return x + y;  // x и y захвачены по значению (копии)
+};
+x = 100;  // Не влияет на лямбду
+std::cout << lambda();  // 30
+
+Захват по ссылке [&]:
+
+
+int x = 10, y = 20;
+auto lambda = [&]() { 
+    return x + y;  // x и y захвачены по ссылке
+};
+x = 100;  // Влияет на лямбду
+std::cout << lambda();  // 120
+
+Конкретный захват:
+
+
+int a = 1, b = 2, c = 3;
+auto lambda = [a, &b]() { 
+    return a + b;  // a по значению, b по ссылке, c не доступна
+};
+
+Лямбды без захвата и указатели на функции:
+
+
+// Лямбда без захвата может быть преобразована в указатель на функцию
+auto lambda = [](int x, int y) { return x + y; };
+int (*funcPtr)(int, int) = lambda;  // OK
+
+// Лямбда с захватом НЕ может
+int z = 5;
+auto lambdaWithCapture = [z](int x) { return x + z; };
+// int (*funcPtr2)(int) = lambdaWithCapture;  // ОШИБКА!
+13. const_cast
+Законное использование:
+
+
+void print(char *str) {
+    std::cout << str;
+}
+
+int main() {
+    const char *message = "Hello";
+    // print(message);  // Ошибка компиляции
+    print(const_cast<char*>(message));  // OK, если print не изменяет строку
+    
+    return 0;
+}
+
+Неопределенное поведение (Undefined Behavior):
+
+
+const int x = 10;
+const int &cref = x;
+int &ref = const_cast<int&>(cref);
+ref = 20;  // UB! Попытка изменить константный объект
+
+std::cout << x;     // Может вывести 10 (компилятор оптимизирует)
+std::cout << ref;   // Может вывести 20
+
+Безопасный пример:
+
+
+int y = 10;                // Не константная переменная
+const int &cref2 = y;      // Константная ссылка на неконстантный объект
+int &ref2 = const_cast<int&>(cref2);
+ref2 = 30;                // OK - оригинальная переменная не была const
+
+std::cout << y;            // 30
