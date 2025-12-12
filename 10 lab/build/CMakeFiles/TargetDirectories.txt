@@ -1,0 +1,3 @@
+D:/10 lab/build/CMakeFiles/phone_processor.dir
+D:/10 lab/build/CMakeFiles/edit_cache.dir
+D:/10 lab/build/CMakeFiles/rebuild_cache.dir

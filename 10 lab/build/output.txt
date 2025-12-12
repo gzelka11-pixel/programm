@@ -1,0 +1,54 @@
+Phone numbers processing:
+
+1. Original: +7 (999) 123-45-67
+   Status: Valid
+   Formatted: +7 (999) 123-45-67
+   Code: 999
+   Operator: Megafon
+   Region: Mobile
+
+2. Original: 8-926-765-43-21
+   Status: Valid
+   Formatted: +7 (926) 765-43-21
+   Code: 926
+   Operator: Megafon
+   Region: Mobile
+
+3. Original: +79161234567
+   Status: Valid
+   Formatted: +7 (916) 123-45-67
+   Code: 916
+   Operator: MTS
+   Region: Mobile
+
+4. Original: 8 (812) 456 78 90
+   Status: Valid
+   Formatted: +7 (812) 456-78-90
+   Code: 812
+   Operator: City
+   Region: Saint Petersburg
+
+5. Original: 7-903-555-66-77
+   Status: Valid
+   Formatted: +7 (903) 555-66-77
+   Code: 903
+   Operator: Beeline
+   Region: Mobile
+
+6. Original: 9261234567
+   Status: Valid
+   Formatted: +7 (926) 123-45-67
+   Code: 926
+   Operator: Megafon
+   Region: Mobile
+
+7. Original: +7 (495) 123-45-67
+   Status: Valid
+   Formatted: +7 (495) 123-45-67
+   Code: 495
+   Operator: City
+   Region: Moscow
+
+Statistics:
+Valid: 7
+Invalid: 0
